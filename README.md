@@ -1,11 +1,11 @@
 # changeimg
 
 
-js
+#js
 
  var change = new Change('.card')
  
-html
+#html
 
 .card>.thumbs>.thumb(data-select='[ "img1.jpg ", "img1.jpg ","img1.jpg " , ...etc]')*2>img+.resultImg>img
 
