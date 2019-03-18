@@ -6,7 +6,7 @@ class changeImg {
         this.resultImg = this.cardEl.querySelector('.resultImg');
         this.allThumbsArr = [...this.cardEl.querySelectorAll('.thumb')];
         this.srcImagesArr = [];
-        this.mainImage = this.resultImg.querySelector('img')
+        this.mainImage = this.resultImg.querySelector('img').src
         this.allThumbsArr.forEach(elm => {
             let stringToArr = JSON.parse(elm.getAttribute('data-select'))
             this.srcImagesArr.push(stringToArr)
@@ -35,6 +35,8 @@ class changeImg {
     }
     removeEvent() {
         clearInterval(this.interval);
+        var img = document.querySelector('.resultImg img');
+        img.setAttribute('src', this.mainImage)
     }
     animate(src) {
         let createImg = document.createElement('img');
