@@ -3,7 +3,7 @@
 
 # js
 ```
- var change = new Change('.card')
+ var change = new Change('.card' , options)
 ```
 # html
 
