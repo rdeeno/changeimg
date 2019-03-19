@@ -1,9 +1,14 @@
 class changeImg {
-    constructor(selector) {
-        let that = this
+    constructor(selector, options) {
+        var defaults = {
+            changeSpeed: 1000,
+            container: '.resultImg'
+        }
+
+        var params = Object.assign({}, defaults, options)
         this.cardEl = selector;
         var interval;
-        this.resultImg = this.cardEl.querySelector('.resultImg');
+        this.resultImg = this.cardEl.querySelector(params.container);
         this.allThumbsArr = [...this.cardEl.querySelectorAll('.thumb')];
         this.srcImagesArr = [];
         this.mainImage = this.resultImg.querySelector('img').src
@@ -12,11 +17,11 @@ class changeImg {
             this.srcImagesArr.push(stringToArr)
 
         })
-        this.cardEl.addEventListener('mouseenter', this.changeImage.bind(this), true)
+        this.cardEl.addEventListener('mouseenter', this.changeImage.bind(this, params), true)
         this.cardEl.addEventListener('mouseleave', this.removeEvent.bind(this), true)
     }
 
-    changeImage(e) {
+    changeImage(params, e) {
         let target = e.target
         let current = 0
         if (!target.classList.contains('thumb')) {
@@ -30,32 +35,32 @@ class changeImg {
             if (current >= srcArr.length) {
                 current = 0;
             }
-        }, 1000);
+        }, params.changeSpeed);
 
     }
     removeEvent() {
         clearInterval(this.interval);
-        var img = document.querySelector('.resultImg img');
-        img.setAttribute('src', this.mainImage)
+        var img = this.cardEl.querySelector('.resultImg img');
+        var defImg = img.setAttribute('src', this.mainImage)
+
     }
     animate(src) {
         let createImg = document.createElement('img');
-        var img = document.querySelector('.resultImg img');
+        var img = this.cardEl.querySelector('.resultImg img');
         createImg.setAttribute('src', src)
-        this.resultImg.prepend(createImg);
-        img.classList.add('invisible')
-        img.addEventListener('transitionend', function () {
-            this.remove();
+        createImg.addEventListener('load', function () {
+            img.classList.add('invisible')
+            img.addEventListener('transitionend', function () {
+                this.remove();
+            })
         })
+        this.resultImg.prepend(createImg);
     }
 }
-
-
-
-
-function Change(selector) {
-    var items = document.querySelectorAll(selector);
-    items.forEach(function (item) {
-        new changeImg(item)
+var items = document.querySelectorAll('.card');
+items.forEach(function (item) {
+    new changeImg(item, {
+        changeSpeed: 2000,
+        container: '.resultImg'
     })
-}
+})
