@@ -22,10 +22,13 @@ class changeImg {
         }
         let index = this.allThumbsArr.indexOf(target)
         let srcArr = this.srcImagesArr[index]
+        // console.log(this.srcImagesArr[index]);
         if (srcArr.length == 1) {
             srcArr[0]
             clearInterval(this.interval)
         }
+        this.resultImg.querySelector('img').src = this.srcImagesArr[index][0]
+
         this.interval = setInterval(() => {
             this.animate(srcArr[current])
             current++;
@@ -37,6 +40,7 @@ class changeImg {
     removeEvent() {
         clearInterval(this.interval);
         this.resultImg.querySelector('img').src = this.mainImageSrc
+
     }
     animate(src) {
         var self = this;
