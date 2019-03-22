@@ -7,6 +7,7 @@ class changeImg {
         this.params = Object.assign({}, defaults, options)
         this.cardEl = selector;
         this.interval;
+        this.isLoaded = false;
         this.resultImg = this.cardEl.querySelector(this.params.container);
         this.allThumbsArr = [...this.cardEl.querySelectorAll('.thumb')];
         this.srcImagesArr = this.createSrcArr();
@@ -22,25 +23,30 @@ class changeImg {
         }
         let index = this.allThumbsArr.indexOf(target)
         let srcArr = this.srcImagesArr[index]
-        // console.log(this.srcImagesArr[index]);
         if (srcArr.length == 1) {
             srcArr[0]
             clearInterval(this.interval)
         }
         this.resultImg.querySelector('img').src = this.srcImagesArr[index][0]
-
         this.interval = setInterval(() => {
-            this.animate(srcArr[current])
-            current++;
-            if (current >= srcArr.length) {
-                current = 0;
+            if (this.isLoaded) {
+                this.animate(srcArr[current])
+                current++;
+                if (current >= srcArr.length) {
+                    current = 0;
+                }
+                this.isLoaded = false;
             }
+
         }, this.params.changeSpeed);
     }
-    removeEvent() {
+    removeEvent(e) {
+        let target = e.target
+        if (!target.classList.contains('thumb')) {
+            return
+        }
         clearInterval(this.interval);
-        this.resultImg.querySelector('img').src = this.mainImageSrc
-
+        this.animate(this.mainImageSrc)
     }
     animate(src) {
         var self = this;
@@ -48,6 +54,8 @@ class changeImg {
         imgTagCreate.setAttribute('src', src);
         imgTagCreate.addEventListener('load', function () {
             self.resultImg.querySelector('img').classList.add('invisible')
+            self.isLoaded = true;
+            // console.log(self.isLoaded);
             self.resultImg.querySelector('img').addEventListener('transitionend', function () {
                 this.remove();
             })
