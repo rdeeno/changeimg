@@ -20,6 +20,7 @@
           </div>
       </div>
       <div class="resultImg">
+          <img src="img0.jpg" alt="" >
           <img src="img.jpg" alt="" class='img' >
       </div>
   </div>
