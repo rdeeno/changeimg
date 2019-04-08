@@ -7,10 +7,11 @@ class changeImg {
         this.params = Object.assign({}, defaults, options)
         this.cardEl = selector;
         this.interval;
-        this.isLoaded = false;
+        this.isLoaded = true;
         this.resultImg = this.cardEl.querySelector(this.params.container);
         this.allThumbsArr = [...this.cardEl.querySelectorAll('.thumb')];
         this.srcImagesArr = this.createSrcArr();
+        this.defaultImg = document.querySelector('.img')
         this.mainImageSrc = this.resultImg.querySelector('img').src
         this.cardEl.addEventListener('mouseenter', this.changeImage.bind(this), true)
         this.cardEl.addEventListener('mouseleave', this.removeEvent.bind(this), true)
@@ -30,12 +31,13 @@ class changeImg {
         this.resultImg.querySelector('img').src = this.srcImagesArr[index][0]
         this.interval = setInterval(() => {
             if (this.isLoaded) {
+                this.isLoaded = false;
                 this.animate(srcArr[current])
                 current++;
                 if (current >= srcArr.length) {
                     current = 0;
                 }
-                this.isLoaded = false;
+
             }
 
         }, this.params.changeSpeed);
@@ -46,16 +48,17 @@ class changeImg {
             return
         }
         clearInterval(this.interval);
-        this.animate(this.mainImageSrc)
+        // this.animate(this.defaultImg)
+        this.defaultImg.style.opacity = 1;
     }
     animate(src) {
         var self = this;
         let imgTagCreate = document.createElement('img');
         imgTagCreate.setAttribute('src', src);
+        this.defaultImg.style.opacity = 0;
         imgTagCreate.addEventListener('load', function () {
             self.resultImg.querySelector('img').classList.add('invisible')
             self.isLoaded = true;
-            // console.log(self.isLoaded);
             self.resultImg.querySelector('img').addEventListener('transitionend', function () {
                 this.remove();
             })

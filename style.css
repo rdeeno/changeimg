@@ -11,11 +11,13 @@
     border: 1px solid #000;
     width: auto;
     position: relative;
-    padding-bottom: 50%;
+}
+
+.resultImg .img {
+    position: relative;
 }
 
 .resultImg img {
-    width: 100%;
     transition: 1s ease;
     position: absolute;
     left: 0;
